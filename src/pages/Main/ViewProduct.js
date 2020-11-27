@@ -55,9 +55,9 @@ const ActionButton = styled(Button)`
 const ViewProduct = () => {
 
     const { productId } = useParams();
-    const { addToCart } = useContext(ProductContext);
+    const { addToCart, cartItems, removeFromCart, addToWishlist } = useContext(ProductContext);
     const { token } = useContext(AuthContext);
-    const history = useHistory
+    const history = useHistory();
 
     const [productInformation] = products.filter(product => {
         return product.id === productId;
@@ -69,6 +69,15 @@ const ViewProduct = () => {
             return;
         }
         addToCart(productId);
+    }
+
+
+    const handleRemoveFromCart = productId => {
+        removeFromCart(productId);
+    }
+
+    const handleAddToWishlist = productId => {
+        addToWishlist(productId);
     }
 
     return (
@@ -110,12 +119,15 @@ const ViewProduct = () => {
                         <ActionButton variant="primary" onClick={() => handleAddToCart(productInformation.id)}>
                             <MdAddShoppingCart /> Add to Cart
                             </ActionButton>
-                        <ActionButton variant="danger">
+                        <ActionButton
+                            variant="danger"
+                            onClick={() => handleRemoveFromCart(productInformation.id)}
+                            disabled={cartItems.includes(productInformation.id) ? false : true}>
                             <MdRemoveShoppingCart /> Remove from Cart
                             </ActionButton>
                         {
                             token &&
-                            <ActionButton variant="secondary">
+                            <ActionButton variant="secondary" onClick={() => handleAddToWishlist(productInformation.id)}>
                                 <MdAddCircle /> Add to wishlist
                             </ActionButton>
                         }

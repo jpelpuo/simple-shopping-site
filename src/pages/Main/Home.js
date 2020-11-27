@@ -4,7 +4,7 @@ import Products from '../../components/Products'
 
 
 const HomePageWrapper = styled.div`
-    width: 100%;
+    width: 100vw;
     display: flex;
     justify-content: center;
     flex-direction: column;

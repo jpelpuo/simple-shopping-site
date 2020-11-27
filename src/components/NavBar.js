@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Form, Navbar, Button, Nav, FormControl } from 'react-bootstrap';
 import AuthContext from '../context/auth-context';
 import styled from 'styled-components';
@@ -52,11 +52,26 @@ const CartNumber = styled.span`
 
 const NavBar = () => {
     const { token, logout } = useContext(AuthContext);
-    const { cartItems } = useContext(ProductContext);
+    const { cartItems, search } = useContext(ProductContext);
+    const searchEl = useRef();
 
     const handleLogout = () => {
         logout();
     }
+
+    const handleSearch = event => {
+        event.preventDefault();
+        const searchString = searchEl.current.value;
+        search(searchString);
+    }
+
+    const handleChange = () => {
+        const searchString = searchEl.current.value;
+        if(searchString === ""){
+            search(searchString);
+        }
+    }
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
             <Navbar.Brand href="#home">Buy Stuff From Here !</Navbar.Brand>
@@ -77,9 +92,14 @@ const NavBar = () => {
                     </>
                 }
 
-                <StyledSearchForm inline className="">
-                    <StyledFormControl type="text" placeholder="Search our products" className="" />
-                    <Button variant="outline-info">
+                <StyledSearchForm inline className="" onSubmit={(event) => handleSearch(event)}>
+                    <StyledFormControl
+                        type="text"
+                        placeholder="Search products"
+                        className=""
+                        onChange={handleChange}
+                        ref={searchEl}/>
+                    <Button variant="outline-info" type="submit">
                         <FaSearch />
                     </Button>
                 </StyledSearchForm>

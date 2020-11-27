@@ -6,7 +6,7 @@ import { MdAddShoppingCart, MdRemoveShoppingCart, MdAddCircle } from 'react-icon
 import ProductContext from '../context/product-context';
 import AuthContext from '../context/auth-context';
 
-const { Img, Text } = Card;
+const { Img } = Card;
 
 const ProductWrapper = styled(Card)`
     display: flex;
@@ -27,10 +27,14 @@ const ProductWrapper = styled(Card)`
         transform: scale(1.05, 1.05)
     }
 `;
-const ImageWrapper = styled.div`
-    flex: 1;
+
+const ProductImage = styled(Img)`
+    height: 270px;  
+
+    @media screen and (max-width: 768px){
+        height: 300px;
+    }
 `;
-const ProductImage = styled(Img)``;
 const DetailsWrapper = styled.div`
     display: flex;
     flex-flow: column nowrap;
@@ -54,7 +58,7 @@ const ProductStatus = styled.span`
 
 
 const ProductItem = ({ product }) => {
-    const { addToCart } = useContext(ProductContext);
+    const { addToCart, cartItems, removeFromCart, addToWishlist } = useContext(ProductContext);
     const { token } = useContext(AuthContext);
     const history = useHistory();
 
@@ -66,9 +70,19 @@ const ProductItem = ({ product }) => {
         addToCart(productId);
     }
 
+    const handleRemoveFromCart = productId => {
+        removeFromCart(productId);
+    }
+
+    const handleAddToWishlist = productId => {
+        addToWishlist(productId);
+    }
+
     return (
         <ProductWrapper className="">
-            <Link to={`/product/${product.id}`} style={{ color: "black", textDecoration: "none" }}>
+            <Link
+                to={`/product/${product.id}`}
+                style={{ color: "black", textDecoration: "none" }}>
                 <ProductImage src={product.image} variant="top" />
             </Link>
             <Card.Body>
@@ -92,12 +106,14 @@ const ProductItem = ({ product }) => {
                         variant="danger"
                         size="sm"
                         title="Remove from cart"
-                        className="mr-1">
+                        className="mr-1"
+                        onClick={() => handleRemoveFromCart(product.id)}
+                        disabled={cartItems.includes(product.id) ? false : true}>
                         <MdRemoveShoppingCart />
                     </Button>
                     {
                         token &&
-                        <Button variant="secondary" size="sm">
+                        <Button variant="secondary" size="sm" onClick={() => handleAddToWishlist(product.id)}>
                             <MdAddCircle />
                             <span className="ml-1">Add to wishlist</span>
                         </Button>
