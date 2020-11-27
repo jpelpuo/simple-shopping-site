@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Form, Col, Button, Alert } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { Form, Button, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const { Label, Text, Row } = Form;
 const RegisterForm = styled(Form)`

@@ -60,7 +60,7 @@ function App() {
         setCartItems([...cartInfo.cartItems]);
       }
     }
-  }, [token]);
+  }, [token, userEmail]);
 
   // Service functions
 
@@ -138,7 +138,7 @@ function App() {
     userInfo.wishlist = [...wishlist];
     userInfo.history = [...history];
     localStorage.setItem(userEmail, JSON.stringify(userInfo));
-  }, [cartItems, wishlist, history]);
+  }, [cartItems, wishlist, history, token, userEmail]);
 
   return (
     <div className="App">

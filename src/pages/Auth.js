@@ -70,10 +70,8 @@ const AuthPage = () => {
             return;
         }
 
-        const storedEmail = storedDetails.email;
+        // const storedEmail = storedDetails.email;
         const storedPassWord = storedDetails.password;
-
-
 
         if (password !== storedPassWord) {
             setError("Invalid Credentials!");
